@@ -32,7 +32,7 @@
 
   productFactory.$inject = ["$resource"];
   function productFactory($resource){
-    var Product = $resource("/api/products");
+    var Product = $resource("/api/products/:name");
     return Product;
   }
 
@@ -47,9 +47,9 @@
     }
   }
 
-  productsShowCtrl.$inject = ["$stateParams"];
-  function productsShowCtrl($stateParams){
+  productsShowCtrl.$inject = ["$stateParams", "Product"];
+  function productsShowCtrl($stateParams, Product){
     var vm        = this;
-    vm.product    = $stateParams;
+    vm.product    = Product.get($stateParams);
   }
 })();
