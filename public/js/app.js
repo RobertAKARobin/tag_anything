@@ -32,7 +32,9 @@
 
   productFactory.$inject = ["$resource"];
   function productFactory($resource){
-    var Product = $resource("/api/products/:name");
+    var Product = $resource("/api/products/:name", {}, {
+      update: {method: "PATCH"}
+    });
     return Product;
   }
 
@@ -54,6 +56,11 @@
     vm.delete     = function(){
       Product.remove($stateParams, function(){
         $state.go("productsIndex");
+      });
+    }
+    vm.update     = function(){
+      Product.update($stateParams, vm.product, function(response){
+        $state.go("productsShow", response);
       });
     }
   }
